@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -6,28 +7,26 @@ int n;
 int arr[21][21];
 int ans;
 
-void dfs(int idx, int count1, int count2, int sum1, int sum2)
+void dfs(int idx, int count1, int count2, int sum1, int sum2, vector<int> v1, vector<int> v2)
 {
-	if ((count1 == int(n / 2)) && (count2 == int(n / 2)))
+	if ((idx == n) && (count1 + count2 == n))
 	{
 		if (ans > abs(sum1 - sum2))
 			ans = abs(sum1 - sum2);
 		return;
 	}
-	if ((idx >= n) || (count1 >= int(n / 2)) || (count2 >= int(n / 2)))
+	if ((idx >= n) || (count1 + count2 >= n))
 		return;
-	for (int i = 0; i < n; i++)
-	{
-		if (i == idx)
-			continue;
-		dfs(idx + 1, count1 + 1, count2, sum1 + arr[idx][i] + arr[i][idx], sum2);
-	}
-	for (int i = 0; i < n; i++)
-	{
-		if (i == idx)
-			continue;
-		dfs(idx + 1, count1, count2 + 1, sum1, sum2 + arr[idx][i] + arr[i][idx]);
-	}
+	int sum3 = sum1;
+	for (int j : v1)
+		sum3 += arr[idx][j] + arr[j][idx];
+	vector<int> v3 = v1;
+	v3.push_back(idx);
+	dfs(idx + 1, count1 + 1, count2, sum3, sum2, v3, v2);
+	v2.push_back(idx);
+	for (int j : v2)
+		sum2 += arr[idx][j] + arr[j][idx];
+	dfs(idx + 1, count1, count2 + 1, sum1, sum2, v1, v2);
 }
 
 int main()
@@ -41,7 +40,9 @@ int main()
 			cin >> arr[i][j];
 
 	ans = 200000;
-	dfs(0, 0, 0, 0, 0);
+	vector<int> v1;
+	vector<int> v2;
+	dfs(0, 0, 0, 0, 0, v1, v2);
 	cout << ans << endl;
 
 	return 0;
