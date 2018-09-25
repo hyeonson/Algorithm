@@ -1,8 +1,7 @@
 #include <iostream>
 #include <math.h>
-#include <string>
+#include <cstring>
 #include <algorithm>
-#include <vector>
 
 using namespace std;
 
@@ -11,21 +10,32 @@ int startC;
 bool isWork[10];
 int notWorkNum;
 int ans;
-string endS;
 
-void dfs(int idx, int len, vector<int> tmp)
+void bruteForce()
 {
-	if (idx == len)// && tmp.size() == len
+	for (int i = 0; i <= 1000003; i++)
 	{
-		int sum = 0;
-		for (int i = 0; i < len; i++)
-			sum += tmp[i] * pow(10, (len - i - 1));
-		ans = min(ans, abs(sum - startC) + len);
-	}
-	int endSdigit = endS[idx] - '0';
-	if (isWork[endSdigit])
-	{
-		tmp.push_back(endSdigit);
+		if (i == 0 && isWork[i])
+			ans = min(ans, endC + 1);
+		int count = 0;
+		int num = i;
+		bool check = true;
+		if(i != 0)
+		{
+			while (num)
+			{
+				int tmp = num % 10;
+				if (!isWork[tmp])
+				{
+					check = false;
+					break;
+				}
+				num /= 10;
+				count++;
+			}
+			if (check)
+				ans = min(ans, abs(i - endC) + count);
+		}
 	}
 }
 
@@ -34,9 +44,8 @@ int main()
 	ios::sync_with_stdio(false);
 	cin.tie(NULL);
 
-	freopen("input.txt", "r", stdin);
-	cin >> endS;
-	endC = stoi(endS);
+	//freopen("input.txt", "r", stdin);
+	cin >> endC;
 	startC = 100;
 	cin >> notWorkNum;
 	memset(isWork, 1, sizeof(isWork));
@@ -46,15 +55,8 @@ int main()
 		cin >> notWork;
 		isWork[notWork] = 0;
 	}
-	if (notWorkNum == 10)
-		ans = abs(startC - endC);
-	else if (notWorkNum == 9 && isWork[0] == 1)
-		ans = min(abs(startC - endC), abs(endC) + 1);
-	else
-	{
-		ans = abs(startC - endC);
-		//dfs
-	}
+	ans = abs(startC - endC);
+	bruteForce();
 	cout << ans << endl;
 	return 0;
 }
