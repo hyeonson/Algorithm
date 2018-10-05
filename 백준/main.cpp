@@ -1,52 +1,64 @@
 #include <iostream>
+#include <cstring>
 
 using namespace std;
 
+bool visited[10];
+bool visited2[10];
+int arr[9][9];
 
-void ptrArr(int(*ptr)[7])
+bool check()
 {
-	int(*ptr2)[7] = ptr;
-	ptr[1][0] = 1;
-	for (int i = 0; i < 7; i++)
+	for (int i = 0; i < 9; i++)
 	{
-		for (int j = 0; j < 7; j++)
+		memset(visited, 0, sizeof(visited));
+		memset(visited2, 0, sizeof(visited2));
+		for (int j = 0; j < 9; j++)
 		{
-			if (j == 6)
-				cout << ptr2[i][j] << endl;
-			else
-				cout << ptr2[i][j] << " ";
+			if (arr[i][j])
+			{
+				if (visited[arr[i][j]])
+					return false;
+				if (visited2[arr[j][i]])
+					return false;
+				visited[arr[i][j]] = 1;
+				visited2[arr[j][i]] = 1;
+			}
 		}
 	}
-	cout << endl;
-}
-
-void valArr(int tmp[][7])
-{
-	int (*ptr2)[7] = tmp;
-	tmp[2][0] = 1;
-	for (int i = 0; i < 7; i++)
+	for (int i = 0; i < 3; i++)
 	{
-		for (int j = 0; j < 7; j++)
+		for (int j = 0; j < 3; j++)
 		{
-			if (j == 6)
-				cout << ptr2[i][j] << endl;
-			else
-				cout << ptr2[i][j] << " ";
+			memset(visited, 0, sizeof(visited));
+			for (int k = 3 * i; k < 3 * i + 3; k++)
+			{
+				for (int l = 3 * j; l < 3 * j + 3; l++)
+				{
+					if (arr[k][l])
+					{
+						if (visited[arr[k][l]])
+							return false;
+						visited[arr[k][l]] = 1;
+					}
+				}
+			}
 		}
 	}
-	cout << endl;
+	return true;
 }
 
 int main()
 {
 	freopen("input.txt", "r", stdin);
-	int arr1[7][7];
-	for (int i = 0; i < 7; i++)
-		for (int j = 0; j < 7; j++)
-			cin >> arr1[i][j];
-	ptrArr(arr1);
-	cout << arr1[1][0] << endl;
-	valArr(arr1);
-	cout << arr1[2][0] << endl;
+	for (int i = 0; i < 9; i++)
+	{
+		for (int j = 0; j < 9; j++)
+		{
+			cin >> arr[i][j];
+		}
+	}
+	cout << check() << endl;
+
 	return 0;
 }
