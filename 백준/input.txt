@@ -1,3 +1,15 @@
-2 4
-CAAB
-ADCB
+6
+id name occupation
+5 Brown Accountant
+2 Cony Programmer
+3 Sally Doctor
+1 James Singer
+4 Moon Dancer
+7
+id city zip
+2 Seoul 10008
+7 Busan 40002
+5 Gwangju 20009
+6 Daegu 30008
+3 Seoul 40005
+1 Seoul 50006
