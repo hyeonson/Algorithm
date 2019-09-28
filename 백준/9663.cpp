@@ -29,7 +29,7 @@ void dfs(int cur)
 			dfs(cur + 1);
 		}
 	}
-	arr[cur] = 1;
+	//arr[cur] = 1;
 }
 
 int main()
