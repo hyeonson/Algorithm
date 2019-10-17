@@ -1,48 +1,56 @@
 #include <iostream>
-#include <vector>
+#include <algorithm>
 
 using namespace std;
 
 int n;
-int arr[21][21];
+int arr[23][23];
+int team[23];
 int ans;
 
-void dfs(int idx, int count1, int count2, int sum1, int sum2, vector<int> v1, vector<int> v2)
-{
-	if ((idx == n) && (count1 + count2 == n))
-	{
-		if (ans > abs(sum1 - sum2))
-			ans = abs(sum1 - sum2);
-		return;
-	}
-	if ((idx >= n) || (count1 + count2 >= n))
-		return;
-	int sum3 = sum1;
-	for (int j : v1)
-		sum3 += arr[idx][j] + arr[j][idx];
-	vector<int> v3 = v1;
-	v3.push_back(idx);
-	dfs(idx + 1, count1 + 1, count2, sum3, sum2, v3, v2);
-	v2.push_back(idx);
-	for (int j : v2)
-		sum2 += arr[idx][j] + arr[j][idx];
-	dfs(idx + 1, count1, count2 + 1, sum1, sum2, v1, v2);
-}
-
-int main()
-{
+int main() {
 	ios::sync_with_stdio(false);
 	cin.tie(NULL);
-	freopen("input.txt", "r", stdin);
-	cin >> n;
-	for (int i = 0; i < n; i++)
-		for (int j = 0; j < n; j++)
-			cin >> arr[i][j];
+	//freopen("input.txt", "r", stdin);
 
-	ans = 200000;
-	vector<int> v1;
-	vector<int> v2;
-	dfs(0, 0, 0, 0, 0, v1, v2);
+	ans = 2e9;
+
+	cin >> n;
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			cin >> arr[i][j];
+		}
+	}
+
+	for (int i = 0; i < n; i++) {
+		if (i < n / 2) {
+			team[i] = 0;
+		}
+		else {
+			team[i] = 1;
+		}
+	}
+
+	do {
+		int sum[2];
+		sum[0] = 0;
+		sum[1] = 0;
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				if (i == j) {
+					continue;
+				}
+				else {
+					if (team[i] == team[j]) {
+						sum[team[i]] += arr[i][j];
+					}
+				}
+			}
+		}
+		ans = min(ans, abs(sum[0] - sum[1]));
+
+	} while (next_permutation(team, team + n));
+
 	cout << ans << endl;
 
 	return 0;
