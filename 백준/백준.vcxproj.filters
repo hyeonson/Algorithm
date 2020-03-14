@@ -126,6 +126,7 @@
     <ClCompile Include="1194.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="sw_수영대회 결승전.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -208,6 +209,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="2206.cpp">
+=======
+    <ClCompile Include="2206.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="2011.cpp">
+>>>>>>> 2996b2577ad0c86ef1abaae38c3fe9496ecaf394
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
